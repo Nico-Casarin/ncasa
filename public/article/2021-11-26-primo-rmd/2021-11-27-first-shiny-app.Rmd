@@ -1,0 +1,119 @@
+---
+title: Primo rmd
+author: Nicola Casarin
+date: '2021-11-26'
+slug: []
+categories: []
+tags: []
+featured_image: ''
+description: ''
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	fig.retina = 4,
+	message = FALSE,
+	warning = FALSE
+)
+```
+# Primo post
+
+### 0. Preparatory work
+
+```{r message=FALSE, warning=FALSE}
+library(shiny)
+library(tidyverse)
+library(rio)
+path <- "https://github.com/n-oise/kidiq/blob/main/kidiq.dta?raw=true"
+```
+
+### 1. Load the data in R
+
+Import the data and check if they have been correctly loaded:
+
+```{r message=FALSE, warning=FALSE}
+kidiq <- import(path)
+head(kidiq)
+```
+
+### 2. Calculate the mean and standard deviations of the variables mom_iq and kid_score simultaneously
+
+For calculating the mean and the standard deviations simultaneously, I'll the function *summarise* and *across* from *dplyr* package:
+
+```{r}
+kidiq %>% 
+  summarise(across(
+    .cols = c(kid_score, mom_iq),
+    .fns = list(mean = mean, sd = sd), na.rm = T,
+    .names = "{col}_{fn}"
+  ))
+```
+
+The summarizing table shows that the mothers obtained a little higher IQ score compared to kids' ones. Furthermore, mothers' Standard Deviation is 25% smaller than kids' SD, showing a smaller dispersion in the kids' scores.
+
+### 3. Scatter plot of mom_iq and kid_score
+
+I'll make the plots using the *ggplot* package, using *geom_point* and *geom_smooth* functions:
+
+```{r}
+ggplot(data = kidiq, aes(x = mom_iq, y = kid_score))+
+  geom_point()+
+  geom_smooth(se = F)+
+  labs(title = "Relationship between Mother's IQ and Kid's scores")+
+  ylab("Kid score")+
+  xlab("Mother iq")
+```
+
+The scatter plot, with a local regression line, shows a slightly positive correlation between mothers' IQ and kids' scores.
+
+### 4. Boxplot of the variable kid_score by the variable mom_hs
+
+```{r}
+ggplot(data = kidiq, aes(x= as.factor(mom_hs), y = kid_score))+
+  geom_boxplot(fill=c("#665191","#ff7c43"))+
+  scale_x_discrete(labels= c("No","Yes"))+
+  ylab("Kid score")+
+  xlab("Mother who completed high school")+
+  labs(title = "Relationship between Mother's high school completion and Kid's scores")
+
+```
+
+The boxplot shows that kids whose mothers completed High School obtain an averagely higher score than kids whose mothers have not finished High School. Moreover, the latter category has a higher sample dispersion.
+
+### 5. Recoding of mothers’ age and mean of kid_score by mom_age_gr and mom_hs
+
+For recoding **mom_age** variable we can use the *mutate* function, from *dplyr*, and *cut* function from base R: 
+
+```{r message=FALSE}
+kidiq <- kidiq %>% 
+  mutate(mom_age_gr = cut(mom_age,
+             breaks=c(16,21,25,30),
+             labels = c("17-21","22-25","26-29")))
+```
+
+```{r message=FALSE}
+kidiq %>% 
+  group_by(mom_age_gr, mom_hs) %>% 
+  summarise(kid_score_mean = mean(kid_score, na.rm = T))
+```
+
+The resulting single row data frame displayed shows us that in the older groups there was more difference in the scores obtained by kids whose mothers finished High School and kids whose mothers did not. In the youngest groups that difference is, for the most part, reduced.
+
+### 6. Plot showing the relationship between mom_iq and kid_score by the variable mom_hs
+
+```{r message=FALSE}
+kidiq %>% 
+  mutate(
+    mom_hs_d = ifelse(mom_hs == 0, "No","Yes")
+    ) %>% 
+  ggplot(., aes(x = mom_iq, y = kid_score, group = mom_hs_d))+
+  geom_point(aes(shape = mom_hs_d, col = mom_hs_d, alpha = 0.5),show.legend = F)+
+  geom_smooth(aes(col= mom_hs_d), method = "lm")+
+  scale_color_manual(values = c("#665191","#ff7c43"), "Mother's school completion")+
+  ylab("Kid score")+
+  xlab("Mother iq")+
+  labs(title = "Relationship between mom_iq and kid_score by the variable mom_hs")
+```
+
+The two linear regression lines show that the relation between mothers' IQ and kids' scores in the two groups differ slightly: in the group of kids whose mothers didn't finish High School, the linear regression is more positive tilted compared to the other group. That suggests a stronger correlation between the Mothers' IQ and kids' obtained scores in that group.

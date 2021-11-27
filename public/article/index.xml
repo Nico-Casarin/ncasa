@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Article on Ncasa</title>
+    <link>https://ncasa.it/article/</link>
+    <description>Recent content in Article on Ncasa</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 27 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ncasa.it/article/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>First shiny app</title>
+      <link>https://ncasa.it/article/2021-11-27-first-shiny-app/2021-11-27-first-shiny-app/</link>
+      <pubDate>Sat, 27 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ncasa.it/article/2021-11-27-first-shiny-app/2021-11-27-first-shiny-app/</guid>
+      <description>Here you can find my fist shiny app try.</description>
+    </item>
+    
+    <item>
+      <title>Primo rmd</title>
+      <link>https://ncasa.it/article/2021-11-26-primo-rmd/2021-11-27-first-shiny-app/</link>
+      <pubDate>Fri, 26 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ncasa.it/article/2021-11-26-primo-rmd/2021-11-27-first-shiny-app/</guid>
+      <description>Primo post 0. Preparatory work library(shiny) library(tidyverse) library(rio) path &amp;lt;- &amp;quot;https://github.com/n-oise/kidiq/blob/main/kidiq.dta?raw=true&amp;quot;  1. Load the data in R Import the data and check if they have been correctly loaded:
+kidiq &amp;lt;- import(path) head(kidiq) ## kid_score mom_hs mom_iq mom_work mom_age ## 1 65 1 121.11753 4 27 ## 2 98 1 89.36188 4 25 ## 3 85 1 115.44316 4 27 ## 4 83 1 99.44964 3 25 ## 5 115 1 92.</description>
+    </item>
+    
+  </channel>
+</rss>
