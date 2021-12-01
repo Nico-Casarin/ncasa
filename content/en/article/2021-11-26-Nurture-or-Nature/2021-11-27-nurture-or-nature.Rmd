@@ -1,5 +1,5 @@
 ---
-title: Primo rmd
+title: Nurture or Nature
 author: Nicola Casarin
 date: '2021-11-26'
 slug: []
@@ -17,7 +17,9 @@ knitr::opts_chunk$set(
 	warning = FALSE
 )
 ```
-# Primo post
+## Analysing the correlation between mother's IQ and Kid's scores.
+
+> *DISCLAIMER: That's an assignment made during a Data Analysis course. None of the proposed relationships has been based on a literature review or scientific research. The scope is solely to learn R.*
 
 ### 0. Preparatory work
 

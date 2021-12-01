@@ -1,5 +1,5 @@
 ---
-title: Primo rmd
+title: Nurture or Nature
 author: Nicola Casarin
 date: '2021-11-26'
 slug: []
@@ -12,8 +12,11 @@ description: ''
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<div id="primo-post" class="section level1">
-<h1>Primo post</h1>
+<div id="analysing-the-correlation-between-mothers-iq-and-kids-scores." class="section level2">
+<h2>Analysing the correlation between mother’s IQ and Kid’s scores.</h2>
+<blockquote>
+<p><em>DISCLAIMER: That’s an assignment made during a Data Analysis course. None of the proposed relationships has been based on a literature review or scientific research. The scope is solely to learn R.</em></p>
+</blockquote>
 <div id="preparatory-work" class="section level3">
 <h3>0. Preparatory work</h3>
 <pre class="r"><code>library(shiny)
@@ -56,7 +59,7 @@ head(kidiq)</code></pre>
   labs(title = &quot;Relationship between Mother&#39;s IQ and Kid&#39;s scores&quot;)+
   ylab(&quot;Kid score&quot;)+
   xlab(&quot;Mother iq&quot;)</code></pre>
-<p><img src="/en/article/2021-11-26-primo-rmd/2021-11-27-first-shiny-app_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/en/article/2021-11-26-Nurture-or-Nature/2021-11-27-nurture-or-nature_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>The scatter plot, with a local regression line, shows a slightly positive correlation between mothers’ IQ and kids’ scores.</p>
 </div>
 <div id="boxplot-of-the-variable-kid_score-by-the-variable-mom_hs" class="section level3">
@@ -67,7 +70,7 @@ head(kidiq)</code></pre>
   ylab(&quot;Kid score&quot;)+
   xlab(&quot;Mother who completed high school&quot;)+
   labs(title = &quot;Relationship between Mother&#39;s high school completion and Kid&#39;s scores&quot;)</code></pre>
-<p><img src="/en/article/2021-11-26-primo-rmd/2021-11-27-first-shiny-app_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/en/article/2021-11-26-Nurture-or-Nature/2021-11-27-nurture-or-nature_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>The boxplot shows that kids whose mothers completed High School obtain an averagely higher score than kids whose mothers have not finished High School. Moreover, the latter category has a higher sample dispersion.</p>
 </div>
 <div id="recoding-of-mothers-age-and-mean-of-kid_score-by-mom_age_gr-and-mom_hs" class="section level3">
@@ -105,7 +108,7 @@ head(kidiq)</code></pre>
   ylab(&quot;Kid score&quot;)+
   xlab(&quot;Mother iq&quot;)+
   labs(title = &quot;Relationship between mom_iq and kid_score by the variable mom_hs&quot;)</code></pre>
-<p><img src="/en/article/2021-11-26-primo-rmd/2021-11-27-first-shiny-app_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/en/article/2021-11-26-Nurture-or-Nature/2021-11-27-nurture-or-nature_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>The two linear regression lines show that the relation between mothers’ IQ and kids’ scores in the two groups differ slightly: in the group of kids whose mothers didn’t finish High School, the linear regression is more positive tilted compared to the other group. That suggests a stronger correlation between the Mothers’ IQ and kids’ obtained scores in that group.</p>
 </div>
 </div>

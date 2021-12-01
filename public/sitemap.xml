@@ -7,17 +7,17 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://ncasa.it/article/2021-11-27-first-shiny-app/2021-11-27-first-shiny-app/</loc>
-    <lastmod>2021-11-27T00:00:00+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://ncasa.it/</loc>
     <lastmod>2021-11-27T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://ncasa.it/article/2021-11-26-primo-rmd/2021-11-27-first-shiny-app/</loc>
+    <loc>https://ncasa.it/article/2021-11-27-shiny-elections/2021-11-27-shiny-elections/</loc>
+    <lastmod>2021-11-27T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://ncasa.it/article/2021-11-26-nurture-or-nature/2021-11-27-nurture-or-nature/</loc>
     <lastmod>2021-11-26T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
