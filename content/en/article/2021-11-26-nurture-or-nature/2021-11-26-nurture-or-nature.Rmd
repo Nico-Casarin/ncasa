@@ -1,5 +1,5 @@
 ---
-title: Nurture or Nature
+title: nurture or nature
 author: Nicola Casarin
 date: '2021-11-26'
 slug: []

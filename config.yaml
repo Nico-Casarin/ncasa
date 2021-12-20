@@ -1,4 +1,4 @@
-title: Ncasa
+title: Nicola Casarin
 baseURL: https://ncasa.it
 languageCode: en-us
 theme: gohugo-theme-ananke
@@ -8,6 +8,7 @@ DefaultContentLanguage: en
 Paginate: 3
 googleAnalytics: 'G-X3133B55BH'
 enableRobotsTXT: yes
+disablePathToLower : false
 languages:
   en:
     contentDir: content/en
@@ -31,6 +32,7 @@ params:
   slack: ''
   stackoverflow: ''
   twitter: 'https://twitter.com/RafanoPiccante'
+  disablePathToLower : false
 markup.highlight:
   codeFences : true
   hl_Lines : ""

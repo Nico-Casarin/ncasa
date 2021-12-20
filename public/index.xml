@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ncasa</title>
+    <title>N. Casarin personal website on Ncasa</title>
     <link>https://ncasa.it/</link>
-    <description>Recent content on Ncasa</description>
+    <description>Recent content in N. Casarin personal website on Ncasa</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 27 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ncasa.it/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Shiny Elections</title>
+      <title>shiny elections</title>
       <link>https://ncasa.it/article/2021-11-27-shiny-elections/2021-11-27-shiny-elections/</link>
       <pubDate>Sat, 27 Nov 2021 00:00:00 +0000</pubDate>
       
@@ -19,11 +19,11 @@ The limitation to only two electoral turnout is due to my shiny’s server limit
     </item>
     
     <item>
-      <title>Nurture or Nature</title>
-      <link>https://ncasa.it/article/2021-11-26-nurture-or-nature/2021-11-27-nurture-or-nature/</link>
+      <title>nurture or nature</title>
+      <link>https://ncasa.it/article/2021-11-26-nurture-or-nature/2021-11-26-nurture-or-nature/</link>
       <pubDate>Fri, 26 Nov 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://ncasa.it/article/2021-11-26-nurture-or-nature/2021-11-27-nurture-or-nature/</guid>
+      <guid>https://ncasa.it/article/2021-11-26-nurture-or-nature/2021-11-26-nurture-or-nature/</guid>
       <description>Analysing the correlation between mother’s IQ and Kid’s scores.  DISCLAIMER: That’s an assignment made during a Data Analysis course. None of the proposed relationships has been based on a literature review or scientific research. The scope is solely to learn R.
  0. Preparatory work library(shiny) library(tidyverse) library(rio) path &amp;lt;- &amp;quot;https://github.com/n-oise/kidiq/blob/main/kidiq.dta?raw=true&amp;quot;  1. Load the data in R Import the data and check if they have been correctly loaded:</description>
     </item>
