@@ -1,4 +1,4 @@
 ---
-title: Article
+title: Articles
 ---
-Some of my work, most of which are university projects.
+Some of my works, most of which are university projects.

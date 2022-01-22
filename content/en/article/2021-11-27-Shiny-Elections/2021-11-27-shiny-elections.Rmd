@@ -1,6 +1,6 @@
 ---
-title: shiny elections 
-author: Nicola Casarin
+title: 'Shiny elections'
+author: 'Nicola Casarin'
 date: '2021-11-27'
 slug: []
 categories: []

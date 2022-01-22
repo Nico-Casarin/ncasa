@@ -1,6 +1,6 @@
 ---
-#description: N. Casarin personal blog
+#description: Data Analytics for politics, society and complex organizations student
 featured_image: /images/back.jpg
 title: 'N. Casarin personal website'
 ---
-Welcome to my blog with some of my work in progress.
+Welcome to my blog with some of my works.

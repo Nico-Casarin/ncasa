@@ -1,0 +1,567 @@
+---
+title: "Covfefe"
+author: "Nicola Casarin"
+date: "2022-01-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+options(scipen=999)
+```
+
+# Final Assignment
+# Table of Contents
+1. [Libraries loading](#prep)
+2. [Exercise 3](#ex3)
+    0. [Data import](#30)
+    1. [Three exploratory plots](#31)
+        + [Overall distribution](#311)
+        + [Hourly distribution](#312)
+        + [Bad or Good?](#313)
+    2. [Trump or Staff?](#32)
+    3. [Rregression analysis](#33)
+    4. [Different periods -> different beheaviours?](#34)
+3. [Exercise 4](#ex4)
+
+# Preparatory work <a name="prep"></a>
+
+```{r Library import, echo=TRUE, message=FALSE, warning=FALSE}
+libs <- c("tidyverse","rio","lubridate","tidytext","stringr","wordcloud","fmsb","scales","sjmisc","sjPlot", "ggpubr")
+invisible(lapply(libs, library, character.only = T))
+```
+
+# Exercise 3 <a name="ex3"></a>
+
+## 3.0 Data import/ text mining <a name='30'></a>
+
+We'll use Trump's Tweets dataset, which includes tweets from 2009 to 2017.
+```{r data-import, message=FALSE, warning=FALSE, cache=TRUE, cache.extra=tools::md5sum("trump_tweets.rds"), include=FALSE, paged.print=FALSE}
+trump <- import("~/Documents/GitHub/finalr/trump_tweets.rds")
+```
+
+## 3.1 <a name='31'></a>
+
+### 3.1.1 Overall distribution <a name='311'></a> 
+
+In the first instance, we can take a look at the density of the tweets throughout the period in analysis.
+
+```{r freqpoly, echo=TRUE}
+trump <- trump %>% 
+  mutate(date = ISOdate(year, month, day, hour))
+ggplot(trump, aes(x=date)) + 
+ geom_histogram(aes(y=..density..), colour="black", fill="white", bins = 200)+
+ geom_density(alpha=.2, fill="#bc5090") 
+```
+
+The density ploy highlights that a major rise occurred after mid-2011 and a general drop after 2016. Also, around early 2015 there was a constant high-rate tweeting period, but the histogram points out the highest peaks, although isolated, occurred early and mid-2015. This plot allows us to understand the tweets frequency over the whole time gathered in the dataset.
+
+
+### 3.1.2 Hourly distribution <a name='312'></a> 
+
+Since we know the timestamp for each tweet, we can point out the presence of some publishing pattern.
+
+```{r weekday recode, echo=TRUE}
+trump <- trump %>% 
+  mutate(weekday = format(trump$date, '%A', locale = locale("UK")),
+         weekday = ordered(weekday, 
+                           levels= c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")))
+
+trump %>% 
+  group_by(weekday, hour)  %>%
+  summarise(n = n()) %>% 
+  mutate(tweet = n/sum(n)*100)  %>%
+  summarise(tweet, hour) %>% 
+  ggplot()+
+  geom_line(aes(y=tweet,x=hour), 
+            stat = 'identity')+
+  facet_wrap(~ weekday) + 
+  ylab(label = "Daily distribution")
+
+  
+```
+
+The results evidence a clear pattern: Monday to Friday, the tweets' pattern show a decrease from the first hours of the day to the early morning, but after 10 A.M. there is a strong increase that peaks around 8 P.M. Saturday and Sunday follow a "double-u" pattern, which peaks around 2 A.M., 12 P.M. and 10 P.M.
+
+
+### 3.1.3 Bad or Good? <a name='313'></a> 
+
+Furthermore, we can take a look at the top ten positive and negative words used in the tweets. For doing so, we must split the text variable in one word per row, and assign each word a sentiment value. As indicator for sentiment, we'll use the Bing lexicon:
+
+```{r bad or good, echo=TRUE}
+word_counts <- trump %>% 
+  unnest_tokens(word, text)
+
+word_counts <- word_counts %>% 
+  inner_join(get_sentiments('bing')) %>% 
+  count(word, sentiment, sort = T) %>% 
+  ungroup()
+word_counts %>% 
+  group_by(sentiment) %>% 
+  top_n(10) %>% 
+  ungroup() %>% 
+  mutate(word = reorder(word, n)) %>% 
+  ggplot(aes(word, n ,fill = sentiment))+
+  geom_col()+
+  facet_wrap(~sentiment, scales = "free_y")+
+  labs(x = NULL, y= "Count")+
+  coord_flip()
+
+```
+
+Interesting, but not surprising, to note that the most used positive word is *trump*. It looks like our subject could have some attention-seeking problems! Anyways, in this case, the word is coded as positive only because of the [meaning](https://www.merriam-webster.com/dictionary/trump) of that word.
+This simple, but still informative plot, allows us to understand the basic tendency in the words of the tweets. However, this is a very basic one. For example, further analysis could explore the top bigrams to a deeper understanding of the relationship between the words, or we could calculate the tf-idf statistics to understand the most relevant keywords!
+
+## 3.2 <a name='32'></a>
+
+### 3.2.1
+
+
+We now procede to recode the variable *source* in 3 categories: (1) Android, (2) iPhone, (3) Other.
+
+
+```{r source recoding, echo=TRUE}
+trump <- trump %>% 
+  mutate(source_rec = ifelse(source == 'Twitter for Android', "1" ,
+                             ifelse(source == 'Twitter for iPhone', "2" ,"3")))
+```
+
+### 3.2.2
+
+Grouping by the two sources, DT's Android and Staff's iPhone, we sum the positive, negative e total words. Then, using a lambda function from purrr package, we divide the total positive and negative words by the total words used, for each source.
+For aesthetic purposes, we can reshape the resulting dataset to a long shape, instead of a wide one. Using the pivot-longer function we can select the columns to reshape, choose the names variable and the values one:
+
+```{r Sentiment difference, echo=TRUE}
+sentiment <- trump %>%
+  group_by(source_rec) %>% 
+  filter(source_rec != 3) %>% 
+  summarise(across(
+    .cols = c(positive, negative, tot_words),
+    .fns = list(sum = sum), na.rm =T,
+    .names = "{col}"
+  )) %>% 
+  mutate(across(
+    .cols = c(positive, negative),
+    .fns = ~ .x / tot_words,
+    .names = "{col}"
+  )) %>% 
+  pivot_longer(positive:negative,
+         names_to = "sentiment",
+         values_to = "sentiment_ratio")
+```
+
+Finally, we can plot the resulting dataset:
+
+```{r Sentiment plot, echo=TRUE}
+ggplot(sentiment, aes(x=sentiment,y=sentiment_ratio, fill=factor(source_rec)))+
+  geom_bar(position = "dodge", stat = "identity")+
+  scale_x_discrete(labels= c("Negative","Positive"))+
+  ylab("Ratio over total words")+
+  scale_fill_manual(values = c("#3DDC84", '#555555'),labels = c("Android", "iPhone"))+
+  labs(fill='Twitting device')+
+  scale_y_continuous(labels = scales::percent)
+```
+
+### 3.2.3
+
+For the emotional language, we apply the same procedure used for the sentiments but select the others variables:
+
+```{r Emotion Difference and reshaping in long shape, echo=TRUE}
+emotion <- trump %>% 
+  group_by(source_rec) %>% 
+  filter(source_rec != 3) %>% 
+  summarise(across(
+    .cols = c(anger:trust, tot_words),
+    .fns = list(sum = sum), na.rm =T,
+    .names = "{col}"
+  )) %>%
+    mutate(across(
+    .cols = c(anger:trust),
+    .fns = ~ .x / tot_words,
+    .names = "{col}"
+  )) %>% 
+   pivot_longer(
+     anger:trust,
+     names_to = "emotion",
+     values_to = "emotion_ratio")
+```
+
+
+```{r Emotions plot, echo=TRUE}
+ggplot(emotion, aes(x=emotion, y=emotion_ratio, fill=factor(source_rec)))+
+  geom_bar(position = "dodge", stat = "identity")+
+  ylab("Ratio over total words")+
+  labs(fill="Twitting device")+
+  scale_y_continuous(labels = scales::percent)+
+  scale_fill_manual(values = c("#3DDC84", "#555555"),
+                    labels = c("Android", "iPhone"))
+```
+
+### 3.2.4
+
+Whose tweets get more “likes” (or “favorites”) and more retweets?
+
+```{r likes and retweets, echo=TRUE}
+trump %>% 
+  group_by(source_rec) %>% 
+  filter(source_rec != 3) %>% 
+  summarise(count = n(),fav = sum(favorite_count), ret = sum(retweet_count)) %>% 
+  mutate(fav = (fav/count), ret = (ret/count)) %>% 
+  pivot_longer(
+    fav:ret,
+    names_to = "engagement",
+    values_to = "engagement_count") %>% 
+  ggplot(aes(x = engagement, y = engagement_count, fill = factor(source_rec)))+
+  geom_bar(position = "dodge", stat = "identity")+
+  ylab("Average engagement per tweet")+
+  xlab("Action")+
+  labs(fill = "Twitting device")+
+  scale_x_discrete(labels = c("Favorite", "Retweet"))+
+  scale_fill_manual(values = c("#3DDC84", "#555555"),
+                    labels = c("Android", "iPhone"))
+```
+
+The first two plots show no clear prevalence of the usage of sentiment words and emotional words. The distribution between DT's tweets and his staff's ones is comparable and do not show relevant peaks.
+On the other hand, the last plot shows a clear tendency: tweets published by DT's staff have more engagement than DT's tweets. iPhone's tweets get almost 4 times "likes" than Android's ones and get retweeted 5 times more.
+
+## 3.3 <a name='33'></a>
+
+Some regressions?
+
+### 3.3.0 Data preparation
+
+For reducing the numbers of the variables we recode the positive minus the negative as one variable. Also, we recode the emotional words in two variables: one for the positive emotional words and one for the negative ones:
+
+```{r data recoding, echo=TRUE}
+trump <- trump %>% 
+  mutate(sentiment = (positive - negative),
+         emo_pos = (joy+anticipation+surprise+trust),
+         emo_neg = (anger+sadness+disgust+fear))
+```
+
+### 3.3.1 Regression models
+
+Then, we can fit the regression model:
+
+```{r favorite sent regression, echo=TRUE}
+summary(model <- lm(favorite_count ~ sentiment,
+                    data = trump))
+plot(model, 1)
+abline(a = 0, b = 0, lty = 2)
+```
+
+The regression result for the formula favorite_count ~ sentiment seems to show a statistically significant negative relationship for the sentiment. For every step on the x-axis, the predicted favourite count decrease by 457 favourites (aka less negative tweets receive fewer likes).
+Despite this, the R-squared is very low, so the regressors can explain only a little part of the dependent variable variation. Lastly, the Residual vs Fitted plot shows that our data present heteroscedasticity. 
+The model should not be trusted.
+
+Now we make the regression using the same predictors, but using *retweet_count* as the predicted variable:
+
+```{r retweet sent regression, echo=TRUE}
+summary(model <- lm(retweet_count ~ sentiment,
+                    data = trump))
+plot(model, 1)
+abline(a = 0, b = 0, lty = 2)
+```
+
+The results show a concordance with the trends resulting for the *favorite_count*: more positive words lead to fewer retweets, but the magnitude of the Estimate Coefficient is lower. Also, this model has the same problems as the first one. 
+
+### 3.3.2
+
+Using the recoded emotional words as regressors:
+
+```{r favorite emo regression, echo=TRUE}
+summary(model <- lm(favorite_count ~ emo_neg+emo_pos,   
+                    data = trump))
+plot(model, 1)
+abline(a = 0, b = 0, lty = 2)
+```
+
+The results are in congruence with the previous ones, an increase of the negative words cause more likes and an increase of the positive words cause fewer likes. But they also have the same problems and the model is not trustworthy.
+
+As before we fit the model for the *retweet_count* variable:
+
+```{r rwtweet emo regression, echo=TRUE}
+summary(model <- lm(retweet_count ~ emo_neg+emo_pos,   
+                    data = trump))
+plot(model, 1)
+abline(a = 0, b = 0, lty = 2)
+```
+
+Not surprisingly, as the *retweet_count*~*sentiment* model, this regression shows the same trends as the last one, but the magnitude of the Coefficient estimated is lower and, again, the model presents a low R-squared and heteroscedasticity.
+
+### 3.3.3
+
+We might want to control if the longer tweets get more engagement we must add *tot_words* variable as an interaction term using the $*$ symbol:
+
+```{r words interaction regression, echo=TRUE}
+summary(model <- lm(favorite_count ~ sentiment*tot_words, 
+                    data = trump))
+plot(model, 1)
+abline(a = 0, b = 0, lty = 2)
+```
+
+There is, indeed, a statistically significant interaction between the total words and the sentiment!
+
+### 3.3.4
+
+Lastly, we can check the difference separating the different recoded sources. Since *source_rec* variable is categorical, to add it to the model fitting we must wrap it with the $factor()$ function:
+
+```{r fav per source, echo=TRUE}
+summary(model <- lm(favorite_count ~ sentiment + factor(source_rec), 
+                    data = trump))
+plot(model, 1)
+abline(a = 0, b = 0, lty = 2)
+```
+
+The baseline category is *Android.* That means that *Other* follow a slightly more negative trend than *Android*, but *iPhone* has a contrary one. More positive words, in that case, means more likes!
+We can also show these results with a graphical approach:
+
+```{r regression sources, echo=TRUE}
+ggplot(trump, aes(x = sentiment, y = favorite_count, group = source_rec))+
+  geom_smooth(aes(col = factor(source_rec)), method = "lm")+
+  labs(color ='Twitting device')+
+  scale_color_manual(values = c("#3DDC84", '#555555', 'purple'),
+                     labels = c("Android","iPhone","Others"))
+
+```
+```{r ret per source, echo=TRUE}
+summary(model <- lm(retweet_count ~ sentiment + factor(source_rec), 
+                    data = trump))
+plot(model, 1)
+abline(a = 0, b = 0, lty = 2)
+```
+```{r retweet sources, echo=TRUE}
+ggplot(trump, aes(x = sentiment, y = retweet_count, group = source_rec))+
+  geom_smooth(aes(col = factor(source_rec)), method = "lm")+
+  labs(color ='Twitting device')+
+  scale_color_manual(values = c("#3DDC84", '#555555', 'purple'),
+                     labels = c("Android","iPhone","Others"))
+
+```
+
+Interestingly, in this case, even if iPhone tweets still get more engagement than other sources,  an increase in the sentiment values (aka more positive words/or less negative ones) lead to a reduction of the reweets.
+
+## 3.4 <a name='34'></a>
+
+Given that:
+
+a. The presidential elections happened on November 8, 2016.
+b. Trump campaign was officially launched on June 16, 2015.
+c. Trump became the presumptive nominee for the Republicans on May 4, 2016 (after the Indiana primary on May 3) and the official nominee on July 19, 2016.
+
+### 3.4.1 
+
+Did the frequency of Trump’s tweets change (1) before/after he started the primary campaign, (2) over the course of the primary campaign, (3) before/after he became official nominee, (4) over the course of the general election campaign, and (5) before/after he became President?
+
+```{r Political activity plot, fig.width=10, echo=TRUE}
+trump %>% 
+  filter(year > '2010') %>% 
+  group_by(month = floor_date(date, unit = 'month'), year ) %>% 
+  summarise(n = n()) %>% 
+  ungroup() %>% 
+  ggplot(aes(month, n))+
+  geom_rect(aes(xmin=as.POSIXct(-Inf), xmax=as.POSIXct("2015-06-16"), ymin=-Inf, ymax=Inf, fill = '1'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2015-06-16"), xmax=as.POSIXct("2016-05-04"), ymin=-Inf, ymax=Inf, fill = '2'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2016-05-04"), xmax=as.POSIXct("2016-07-19"), ymin=-Inf, ymax=Inf, fill = '3'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2016-07-19"), xmax=as.POSIXct("2016-11-08"), ymin=-Inf, ymax=Inf, fill = '4'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2016-11-08"), xmax=as.POSIXct(Inf), ymin=-Inf, ymax=Inf, fill = '5'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  scale_fill_manual(values = c('#442288','#6CA2EA','#B5D33D','#FED23F','#EB7D5B'), 
+                    labels = c("Before campaign","Presidential primary campaign","Presumptive nominee","Official nominee","Elected president"))+
+  labs(fill="")+
+  geom_line()+
+  geom_point()+
+  ylab(label = "Montly tweets")+
+  xlab(label = "")
+```
+
+The graph shows the monthly volume of tweets published during five different periods of Donald Trump's activity. We can understand that the more dense period is "Before Campaign". After the official campaign launch, the growing trend starts to drop, with only one peak before the presidential election.
+Nevertheless, this graph is not very informative because it doesn't show us the behaviour of the different sources. 
+
+### 3.4.2
+
+We can plot a line chart grouped by the recoded sources dividing the plot into 5 different "regions" indicating the political periods of Donald Trump. 
+To improve the readability of the chart we can filter out tweets published before 2014. The earlier tweets represent only the media career of Donald Trump, as the presenter for "The Apprentice".
+
+```{r periods sources, fig.width=10, echo=TRUE}
+trump %>% 
+  filter(year > '2010') %>% 
+  group_by(source_rec, month = floor_date(date, unit = 'month'), year ) %>% 
+  summarise(n = n()) %>% 
+  ungroup() %>% 
+  ggplot(aes(month, n, color = source_rec))+
+  labs(color ='Twitting device')+
+  scale_color_manual(values = c("#3DDC84", '#555555', 'purple'),
+                     labels = c("Android","iPhone","Others"))+
+  geom_rect(aes(xmin=as.POSIXct(-Inf), xmax=as.POSIXct("2015-06-16"), ymin=-Inf, ymax=Inf, fill = '1'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2015-06-16"), xmax=as.POSIXct("2016-05-04"), ymin=-Inf, ymax=Inf, fill = '2'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2016-05-04"), xmax=as.POSIXct("2016-07-19"), ymin=-Inf, ymax=Inf, fill = '3'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2016-07-19"), xmax=as.POSIXct("2016-11-08"), ymin=-Inf, ymax=Inf, fill = '4'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2016-11-08"), xmax=as.POSIXct(Inf), ymin=-Inf, ymax=Inf, fill = '5'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  scale_fill_manual(values = c('#442288','#6CA2EA','#B5D33D','#FED23F','#EB7D5B'), 
+                    labels = c("Before campaign","Presidential primary campaign","Presumptive nominee","Official nominee","Elected president"))+
+  labs(fill="")+
+  geom_line()+
+  geom_point()+
+  ylab(label = "Montly tweets")+
+  xlab(label = "")
+```
+
+The chart highlights the monthly frequency divided by the three recoded sources. In the first area, "Before Campaign", the volume before 2011 (filtered out!) are mostly linked with Trump's media career and general political opinions. In the four years approaching the 16th of June 2015, [when Trump announced his Presidential campaign](https://time.com/3923128/donald-trump-announcement-speech), the political topics overtake the others, simultaneously with an increase in the tweets volume. Throughout the last months of 2015, after the official announcement, it can be observed that Trump's campaign staff, who's tweeting from iPhone devices,  started tweeting.
+During the whole time, the main tweeting source was Android. After the Official nomination, the tweets from Android no longer have the primacy, in favour of those published via iPhone.
+Lastly, after the presidential election, tweets from "Others"  drops close to zero. Furthermore, the volume of the monthly tweets is reduced.  
+
+### 3.4.3 
+
+Did the sentiment and the use of emotional words in the tweets change in the same 5 periods?
+You can show your results either with tables or charts.
+
+- - -
+
+For the positive-negative chart, we'll use the same approach used before:
+
+```{r sentiment period, fig.width=10, echo=TRUE}
+trump %>% 
+  filter(year > '2010') %>% 
+  group_by(month = floor_date(date, unit = 'month'), year ) %>%
+  summarise(across(
+    .cols = c(positive,negative),
+    .fns = sum,
+    .names = "{col}"
+  )) %>% 
+  ungroup() %>% 
+  pivot_longer(positive:negative,
+               names_to = "sentiment",
+               values_to = "count") %>% 
+  ggplot(aes(month, count, color = sentiment))+
+  geom_rect(aes(xmin=as.POSIXct(-Inf), xmax=as.POSIXct("2015-06-16"), ymin=-Inf, ymax=Inf, fill = '1'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2015-06-16"), xmax=as.POSIXct("2016-05-04"), ymin=-Inf, ymax=Inf, fill = '2'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2016-05-04"), xmax=as.POSIXct("2016-07-19"), ymin=-Inf, ymax=Inf, fill = '3'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2016-07-19"), xmax=as.POSIXct("2016-11-08"), ymin=-Inf, ymax=Inf, fill = '4'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct("2016-11-08"), xmax=as.POSIXct(Inf), ymin=-Inf, ymax=Inf, fill = '5'),
+            color= "black",
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  scale_fill_manual(values = c('#442288','#6CA2EA','#B5D33D','#FED23F','#EB7D5B'), 
+                    labels = c("Before campaign","Presidential primary campaign","Presumptive nominee","Official nominee","Elected president"))+
+  labs(fill="")+
+  geom_line()+
+  geom_point()+
+  ylab(label = "Sentiment words count")+
+  xlab(label = "")
+```
+
+As shown before, negative words are used about half times than positive words. The peaks between the two groups correspond to the peaks in the overall tweeting frequency. Only the months before the Primary campaign the usage of the negative words seems less responsive to the peaks. Lastly, after the official campaign launch, the delta between Positive and Negative words shortens, because there is a reduction of positive words, but the negative one stays around the same frequency
+
+### 3.4.4
+
+For the emotional words plot, we must change the approach. Since there are eight different emotion variables we need to reduce the elements plotted to improve the readability. For doing so we can remove the background colour for the different political periods, split into two different graphs the negative emotions and the positive emotions and reduce the analysis period to post 2015 (2015 included): 
+
+```{r  emotion, fig.width = 10, echo=TRUE}
+pos <- trump %>% 
+  filter(year > '2014') %>% 
+  group_by(month = floor_date(date, unit = 'month'), year ) %>%
+  summarise(across(
+    .cols = c(anticipation, joy, surprise, trust),
+    .fns = sum,
+    .names = "{col}"
+  )) %>% 
+  ungroup() %>% 
+  pivot_longer(anticipation:trust,
+               names_to = "emotion",
+               values_to = "count") %>% 
+  group_by(month) %>% 
+ # summarise(emotion, percent = count/sum(count)) %>% 
+  ggplot(aes(x = month, y = count, fill = emotion))+
+  geom_area(alpha = 0.75)+
+  geom_vline(xintercept =  as.POSIXct(c("2015-06-16","2016-05-04")))+
+  geom_vline(xintercept =  as.POSIXct(c("2015-06-16", "2016-05-04", "2016-07-19", "2016-11-08")))+
+  annotate("text", x = as.POSIXct(c("2015-02-21", "2015-07-20", "2016-05-24", "2016-08-10", "2016-11-29")), y = 2000, label = c("Before", "Primary", "Presumtive", "Official", "Election"),angle = 270)+
+ 
+  theme(legend.position="bottom")
+neg <- trump %>% 
+  filter(year > '2014') %>% 
+  group_by(month = floor_date(date, unit = 'month'), year ) %>%
+  summarise(across(
+    .cols = c(anger,disgust, fear, sadness),
+    .fns = sum,
+    .names = "{col}"
+  )) %>% 
+  ungroup() %>% 
+  pivot_longer(anger:sadness,
+               names_to = "emotion",
+               values_to = "count") %>% 
+  group_by(month) %>% 
+ # summarise(emotion, percent = count/sum(count)) %>% 
+  ggplot(aes(x = month, y = count, fill = emotion))+
+  geom_area(alpha = 0.75)+
+  geom_vline(xintercept =  as.POSIXct(c("2015-06-16", "2016-05-04", "2016-07-19", "2016-11-08")))+
+  annotate("text", x = as.POSIXct(c("2015-01-21", "2015-07-20", "2016-05-24", "2016-08-10", "2016-11-29")), y = 850, label = c("Before", "Primary", "Presumtive", "Official", "Election"),angle = 270)+
+  ylab(NULL)+
+  theme(legend.position="bottom")
+
+ggarrange(pos, neg,
+          ncol = 2)
+```
+
+As we saw in the sentiment's plot the positive words are more frequent in the first period. After the official campaign launch the difference decrease. The most relevant peaks occur immediately after the Primary campaign launch, during the primary campaign and before the official nomination and the presidential election.

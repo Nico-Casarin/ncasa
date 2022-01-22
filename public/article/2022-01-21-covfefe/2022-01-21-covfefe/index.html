@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Covfefe | Ncasa</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Final Assignment  Table of Contents Libraries loading Exercise 3 Data import Three exploratory plots  Overall distribution Hourly distribution Bad or Good?  Trump or Staff? Rregression analysis Different periods -&gt; different beheaviours?  Exercise 4   Preparatory work  libs &lt;- c(&quot;tidyverse&quot;,&quot;rio&quot;,&quot;lubridate&quot;,&quot;tidytext&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;fmsb&quot;,&quot;scales&quot;,&quot;sjmisc&quot;,&quot;sjPlot&quot;, &quot;ggpubr&quot;) invisible(lapply(libs, library, character.only = T))  Exercise 3  3.0 Data import/ text mining  We’ll use Trump’s Tweets dataset, which includes tweets from 2009 to 2017.">
+    <meta name="generator" content="Hugo 0.89.4" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="Covfefe" />
+<meta property="og:description" content="Final Assignment  Table of Contents Libraries loading Exercise 3 Data import Three exploratory plots  Overall distribution Hourly distribution Bad or Good?  Trump or Staff? Rregression analysis Different periods -&gt; different beheaviours?  Exercise 4   Preparatory work  libs &lt;- c(&quot;tidyverse&quot;,&quot;rio&quot;,&quot;lubridate&quot;,&quot;tidytext&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;fmsb&quot;,&quot;scales&quot;,&quot;sjmisc&quot;,&quot;sjPlot&quot;, &quot;ggpubr&quot;) invisible(lapply(libs, library, character.only = T))  Exercise 3  3.0 Data import/ text mining  We’ll use Trump’s Tweets dataset, which includes tweets from 2009 to 2017." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ncasa.it/article/2022-01-21-covfefe/2022-01-21-covfefe/" /><meta property="article:section" content="article" />
+<meta property="article:published_time" content="2022-01-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-01-21T00:00:00+00:00" /><meta property="og:site_name" content="Ncasa" />
+
+<meta itemprop="name" content="Covfefe">
+<meta itemprop="description" content="Final Assignment  Table of Contents Libraries loading Exercise 3 Data import Three exploratory plots  Overall distribution Hourly distribution Bad or Good?  Trump or Staff? Rregression analysis Different periods -&gt; different beheaviours?  Exercise 4   Preparatory work  libs &lt;- c(&quot;tidyverse&quot;,&quot;rio&quot;,&quot;lubridate&quot;,&quot;tidytext&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;fmsb&quot;,&quot;scales&quot;,&quot;sjmisc&quot;,&quot;sjPlot&quot;, &quot;ggpubr&quot;) invisible(lapply(libs, library, character.only = T))  Exercise 3  3.0 Data import/ text mining  We’ll use Trump’s Tweets dataset, which includes tweets from 2009 to 2017."><meta itemprop="datePublished" content="2022-01-21T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-01-21T00:00:00+00:00" />
+<meta itemprop="wordCount" content="3551">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Covfefe"/>
+<meta name="twitter:description" content="Final Assignment  Table of Contents Libraries loading Exercise 3 Data import Three exploratory plots  Overall distribution Hourly distribution Bad or Good?  Trump or Staff? Rregression analysis Different periods -&gt; different beheaviours?  Exercise 4   Preparatory work  libs &lt;- c(&quot;tidyverse&quot;,&quot;rio&quot;,&quot;lubridate&quot;,&quot;tidytext&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;fmsb&quot;,&quot;scales&quot;,&quot;sjmisc&quot;,&quot;sjPlot&quot;, &quot;ggpubr&quot;) invisible(lapply(libs, library, character.only = T))  Exercise 3  3.0 Data import/ text mining  We’ll use Trump’s Tweets dataset, which includes tweets from 2009 to 2017."/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Ncasa
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/article/" title="Article page">
+              Article
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/r/" title="Rstudio page">
+              Rstudio
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+
+<a href="https://twitter.com/RafanoPiccante" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        ARTICLES
+      </aside>
+      
+
+      <h1 class="f1 athelas mt3 mb1">Covfefe</h1>
+      
+      <p class="tracked">
+          By <strong>
+          
+              Nicola Casarin
+          
+          </strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2022-01-21T00:00:00Z">January 21, 2022</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="final-assignment" class="section level1">
+<h1>Final Assignment</h1>
+</div>
+<div id="table-of-contents" class="section level1">
+<h1>Table of Contents</h1>
+<ol style="list-style-type: decimal">
+<li><a href="#prep">Libraries loading</a></li>
+<li><a href="#ex3">Exercise 3</a>
+<ol start="0" style="list-style-type: decimal">
+<li><a href="#30">Data import</a></li>
+<li><a href="#31">Three exploratory plots</a>
+<ul>
+<li><a href="#311">Overall distribution</a></li>
+<li><a href="#312">Hourly distribution</a></li>
+<li><a href="#313">Bad or Good?</a></li>
+</ul></li>
+<li><a href="#32">Trump or Staff?</a></li>
+<li><a href="#33">Rregression analysis</a></li>
+<li><a href="#34">Different periods -&gt; different beheaviours?</a></li>
+</ol></li>
+<li><a href="#ex4">Exercise 4</a></li>
+</ol>
+</div>
+<div id="preparatory-work" class="section level1">
+<h1>Preparatory work <a name="prep"></a></h1>
+<pre class="r"><code>libs &lt;- c(&quot;tidyverse&quot;,&quot;rio&quot;,&quot;lubridate&quot;,&quot;tidytext&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;fmsb&quot;,&quot;scales&quot;,&quot;sjmisc&quot;,&quot;sjPlot&quot;, &quot;ggpubr&quot;)
+invisible(lapply(libs, library, character.only = T))</code></pre>
+</div>
+<div id="exercise-3" class="section level1">
+<h1>Exercise 3 <a name="ex3"></a></h1>
+<div id="data-import-text-mining" class="section level2">
+<h2>3.0 Data import/ text mining <a name='30'></a></h2>
+<p>We’ll use Trump’s Tweets dataset, which includes tweets from 2009 to 2017.</p>
+</div>
+<div id="section" class="section level2">
+<h2>3.1 <a name='31'></a></h2>
+<div id="overall-distribution" class="section level3">
+<h3>3.1.1 Overall distribution <a name='311'></a></h3>
+<p>In the first instance, we can take a look at the density of the tweets throughout the period in analysis.</p>
+<pre class="r"><code>trump &lt;- trump %&gt;% 
+  mutate(date = ISOdate(year, month, day, hour))
+ggplot(trump, aes(x=date)) + 
+ geom_histogram(aes(y=..density..), colour=&quot;black&quot;, fill=&quot;white&quot;, bins = 200)+
+ geom_density(alpha=.2, fill=&quot;#bc5090&quot;) </code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/freqpoly-1.png" width="672" /></p>
+<p>The density ploy highlights that a major rise occurred after mid-2011 and a general drop after 2016. Also, around early 2015 there was a constant high-rate tweeting period, but the histogram points out the highest peaks, although isolated, occurred early and mid-2015. This plot allows us to understand the tweets frequency over the whole time gathered in the dataset.</p>
+</div>
+<div id="hourly-distribution" class="section level3">
+<h3>3.1.2 Hourly distribution <a name='312'></a></h3>
+<p>Since we know the timestamp for each tweet, we can point out the presence of some publishing pattern.</p>
+<pre class="r"><code>trump &lt;- trump %&gt;% 
+  mutate(weekday = format(trump$date, &#39;%A&#39;, locale = locale(&quot;UK&quot;)),
+         weekday = ordered(weekday, 
+                           levels= c(&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;, &quot;Sunday&quot;)))
+
+trump %&gt;% 
+  group_by(weekday, hour)  %&gt;%
+  summarise(n = n()) %&gt;% 
+  mutate(tweet = n/sum(n)*100)  %&gt;%
+  summarise(tweet, hour) %&gt;% 
+  ggplot()+
+  geom_line(aes(y=tweet,x=hour), 
+            stat = &#39;identity&#39;)+
+  facet_wrap(~ weekday) + 
+  ylab(label = &quot;Daily distribution&quot;)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/weekday%20recode-1.png" width="672" /></p>
+<p>The results evidence a clear pattern: Monday to Friday, the tweets’ pattern show a decrease from the first hours of the day to the early morning, but after 10 A.M. there is a strong increase that peaks around 8 P.M. Saturday and Sunday follow a “double-u” pattern, which peaks around 2 A.M., 12 P.M. and 10 P.M.</p>
+</div>
+<div id="bad-or-good" class="section level3">
+<h3>3.1.3 Bad or Good? <a name='313'></a></h3>
+<p>Furthermore, we can take a look at the top ten positive and negative words used in the tweets. For doing so, we must split the text variable in one word per row, and assign each word a sentiment value. As indicator for sentiment, we’ll use the Bing lexicon:</p>
+<pre class="r"><code>word_counts &lt;- trump %&gt;% 
+  unnest_tokens(word, text)
+
+word_counts &lt;- word_counts %&gt;% 
+  inner_join(get_sentiments(&#39;bing&#39;)) %&gt;% 
+  count(word, sentiment, sort = T) %&gt;% 
+  ungroup()
+word_counts %&gt;% 
+  group_by(sentiment) %&gt;% 
+  top_n(10) %&gt;% 
+  ungroup() %&gt;% 
+  mutate(word = reorder(word, n)) %&gt;% 
+  ggplot(aes(word, n ,fill = sentiment))+
+  geom_col()+
+  facet_wrap(~sentiment, scales = &quot;free_y&quot;)+
+  labs(x = NULL, y= &quot;Count&quot;)+
+  coord_flip()</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/bad%20or%20good-1.png" width="672" /></p>
+<p>Interesting, but not surprising, to note that the most used positive word is <em>trump</em>. It looks like our subject could have some attention-seeking problems! Anyways, in this case, the word is coded as positive only because of the <a href="https://www.merriam-webster.com/dictionary/trump">meaning</a> of that word.
+This simple, but still informative plot, allows us to understand the basic tendency in the words of the tweets. However, this is a very basic one. For example, further analysis could explore the top bigrams to a deeper understanding of the relationship between the words, or we could calculate the tf-idf statistics to understand the most relevant keywords!</p>
+</div>
+</div>
+<div id="section-1" class="section level2">
+<h2>3.2 <a name='32'></a></h2>
+<div id="section-2" class="section level3">
+<h3>3.2.1</h3>
+<p>We now procede to recode the variable <em>source</em> in 3 categories: (1) Android, (2) iPhone, (3) Other.</p>
+<pre class="r"><code>trump &lt;- trump %&gt;% 
+  mutate(source_rec = ifelse(source == &#39;Twitter for Android&#39;, &quot;1&quot; ,
+                             ifelse(source == &#39;Twitter for iPhone&#39;, &quot;2&quot; ,&quot;3&quot;)))</code></pre>
+</div>
+<div id="section-3" class="section level3">
+<h3>3.2.2</h3>
+<p>Grouping by the two sources, DT’s Android and Staff’s iPhone, we sum the positive, negative e total words. Then, using a lambda function from purrr package, we divide the total positive and negative words by the total words used, for each source.
+For aesthetic purposes, we can reshape the resulting dataset to a long shape, instead of a wide one. Using the pivot-longer function we can select the columns to reshape, choose the names variable and the values one:</p>
+<pre class="r"><code>sentiment &lt;- trump %&gt;%
+  group_by(source_rec) %&gt;% 
+  filter(source_rec != 3) %&gt;% 
+  summarise(across(
+    .cols = c(positive, negative, tot_words),
+    .fns = list(sum = sum), na.rm =T,
+    .names = &quot;{col}&quot;
+  )) %&gt;% 
+  mutate(across(
+    .cols = c(positive, negative),
+    .fns = ~ .x / tot_words,
+    .names = &quot;{col}&quot;
+  )) %&gt;% 
+  pivot_longer(positive:negative,
+         names_to = &quot;sentiment&quot;,
+         values_to = &quot;sentiment_ratio&quot;)</code></pre>
+<p>Finally, we can plot the resulting dataset:</p>
+<pre class="r"><code>ggplot(sentiment, aes(x=sentiment,y=sentiment_ratio, fill=factor(source_rec)))+
+  geom_bar(position = &quot;dodge&quot;, stat = &quot;identity&quot;)+
+  scale_x_discrete(labels= c(&quot;Negative&quot;,&quot;Positive&quot;))+
+  ylab(&quot;Ratio over total words&quot;)+
+  scale_fill_manual(values = c(&quot;#3DDC84&quot;, &#39;#555555&#39;),labels = c(&quot;Android&quot;, &quot;iPhone&quot;))+
+  labs(fill=&#39;Twitting device&#39;)+
+  scale_y_continuous(labels = scales::percent)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/Sentiment%20plot-1.png" width="672" /></p>
+</div>
+<div id="section-4" class="section level3">
+<h3>3.2.3</h3>
+<p>For the emotional language, we apply the same procedure used for the sentiments but select the others variables:</p>
+<pre class="r"><code>emotion &lt;- trump %&gt;% 
+  group_by(source_rec) %&gt;% 
+  filter(source_rec != 3) %&gt;% 
+  summarise(across(
+    .cols = c(anger:trust, tot_words),
+    .fns = list(sum = sum), na.rm =T,
+    .names = &quot;{col}&quot;
+  )) %&gt;%
+    mutate(across(
+    .cols = c(anger:trust),
+    .fns = ~ .x / tot_words,
+    .names = &quot;{col}&quot;
+  )) %&gt;% 
+   pivot_longer(
+     anger:trust,
+     names_to = &quot;emotion&quot;,
+     values_to = &quot;emotion_ratio&quot;)</code></pre>
+<pre class="r"><code>ggplot(emotion, aes(x=emotion, y=emotion_ratio, fill=factor(source_rec)))+
+  geom_bar(position = &quot;dodge&quot;, stat = &quot;identity&quot;)+
+  ylab(&quot;Ratio over total words&quot;)+
+  labs(fill=&quot;Twitting device&quot;)+
+  scale_y_continuous(labels = scales::percent)+
+  scale_fill_manual(values = c(&quot;#3DDC84&quot;, &quot;#555555&quot;),
+                    labels = c(&quot;Android&quot;, &quot;iPhone&quot;))</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/Emotions%20plot-1.png" width="672" /></p>
+</div>
+<div id="section-5" class="section level3">
+<h3>3.2.4</h3>
+<p>Whose tweets get more “likes” (or “favorites”) and more retweets?</p>
+<pre class="r"><code>trump %&gt;% 
+  group_by(source_rec) %&gt;% 
+  filter(source_rec != 3) %&gt;% 
+  summarise(count = n(),fav = sum(favorite_count), ret = sum(retweet_count)) %&gt;% 
+  mutate(fav = (fav/count), ret = (ret/count)) %&gt;% 
+  pivot_longer(
+    fav:ret,
+    names_to = &quot;engagement&quot;,
+    values_to = &quot;engagement_count&quot;) %&gt;% 
+  ggplot(aes(x = engagement, y = engagement_count, fill = factor(source_rec)))+
+  geom_bar(position = &quot;dodge&quot;, stat = &quot;identity&quot;)+
+  ylab(&quot;Average engagement per tweet&quot;)+
+  xlab(&quot;Action&quot;)+
+  labs(fill = &quot;Twitting device&quot;)+
+  scale_x_discrete(labels = c(&quot;Favorite&quot;, &quot;Retweet&quot;))+
+  scale_fill_manual(values = c(&quot;#3DDC84&quot;, &quot;#555555&quot;),
+                    labels = c(&quot;Android&quot;, &quot;iPhone&quot;))</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/likes%20and%20retweets-1.png" width="672" /></p>
+<p>The first two plots show no clear prevalence of the usage of sentiment words and emotional words. The distribution between DT’s tweets and his staff’s ones is comparable and do not show relevant peaks.
+On the other hand, the last plot shows a clear tendency: tweets published by DT’s staff have more engagement than DT’s tweets. iPhone’s tweets get almost 4 times “likes” than Android’s ones and get retweeted 5 times more.</p>
+</div>
+</div>
+<div id="section-6" class="section level2">
+<h2>3.3 <a name='33'></a></h2>
+<p>Some regressions?</p>
+<div id="data-preparation" class="section level3">
+<h3>3.3.0 Data preparation</h3>
+<p>For reducing the numbers of the variables we recode the positive minus the negative as one variable. Also, we recode the emotional words in two variables: one for the positive emotional words and one for the negative ones:</p>
+<pre class="r"><code>trump &lt;- trump %&gt;% 
+  mutate(sentiment = (positive - negative),
+         emo_pos = (joy+anticipation+surprise+trust),
+         emo_neg = (anger+sadness+disgust+fear))</code></pre>
+</div>
+<div id="regression-models" class="section level3">
+<h3>3.3.1 Regression models</h3>
+<p>Then, we can fit the regression model:</p>
+<pre class="r"><code>summary(model &lt;- lm(favorite_count ~ sentiment,
+                    data = trump))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = favorite_count ~ sentiment, data = trump)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -7174  -4432  -3959  -2779 628796 
+## 
+## Coefficients:
+##             Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)  4456.60      91.19  48.870 &lt; 0.0000000000000002 ***
+## sentiment    -457.06      63.82  -7.162    0.000000000000813 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 15050 on 30778 degrees of freedom
+## Multiple R-squared:  0.001664,   Adjusted R-squared:  0.001631 
+## F-statistic: 51.29 on 1 and 30778 DF,  p-value: 0.0000000000008131</code></pre>
+<pre class="r"><code>plot(model, 1)
+abline(a = 0, b = 0, lty = 2)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/favorite%20sent%20regression-1.png" width="672" /></p>
+<p>The regression result for the formula favorite_count ~ sentiment seems to show a statistically significant negative relationship for the sentiment. For every step on the x-axis, the predicted favourite count decrease by 457 favourites (aka less negative tweets receive fewer likes).
+Despite this, the R-squared is very low, so the regressors can explain only a little part of the dependent variable variation. Lastly, the Residual vs Fitted plot shows that our data present heteroscedasticity.
+The model should not be trusted.</p>
+<p>Now we make the regression using the same predictors, but using <em>retweet_count</em> as the predicted variable:</p>
+<pre class="r"><code>summary(model &lt;- lm(retweet_count ~ sentiment,
+                    data = trump))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = retweet_count ~ sentiment, data = trump)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -2886  -1624  -1362   -710 343156 
+## 
+## Coefficients:
+##             Estimate Std. Error t value            Pr(&gt;|t|)    
+## (Intercept)  1650.45      31.24  52.837 &lt;0.0000000000000002 ***
+## sentiment    -209.43      21.86  -9.581 &lt;0.0000000000000002 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5155 on 30778 degrees of freedom
+## Multiple R-squared:  0.002974,   Adjusted R-squared:  0.002941 
+## F-statistic: 91.79 on 1 and 30778 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<pre class="r"><code>plot(model, 1)
+abline(a = 0, b = 0, lty = 2)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/retweet%20sent%20regression-1.png" width="672" /></p>
+<p>The results show a concordance with the trends resulting for the <em>favorite_count</em>: more positive words lead to fewer retweets, but the magnitude of the Estimate Coefficient is lower. Also, this model has the same problems as the first one.</p>
+</div>
+<div id="section-7" class="section level3">
+<h3>3.3.2</h3>
+<p>Using the recoded emotional words as regressors:</p>
+<pre class="r"><code>summary(model &lt;- lm(favorite_count ~ emo_neg+emo_pos,   
+                    data = trump))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = favorite_count ~ emo_neg + emo_pos, data = trump)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -12737  -3847  -3655  -2828 627105 
+## 
+## Coefficients:
+##             Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)  3846.89     118.93  32.346 &lt; 0.0000000000000002 ***
+## emo_neg       638.45      48.44  13.181 &lt; 0.0000000000000002 ***
+## emo_pos      -126.24      36.65  -3.445             0.000572 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 15020 on 30777 degrees of freedom
+## Multiple R-squared:  0.005703,   Adjusted R-squared:  0.005638 
+## F-statistic: 88.26 on 2 and 30777 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<pre class="r"><code>plot(model, 1)
+abline(a = 0, b = 0, lty = 2)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/favorite%20emo%20regression-1.png" width="672" /></p>
+<p>The results are in congruence with the previous ones, an increase of the negative words cause more likes and an increase of the positive words cause fewer likes. But they also have the same problems and the model is not trustworthy.</p>
+<p>As before we fit the model for the <em>retweet_count</em> variable:</p>
+<pre class="r"><code>summary(model &lt;- lm(retweet_count ~ emo_neg+emo_pos,   
+                    data = trump))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = retweet_count ~ emo_neg + emo_pos, data = trump)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -4775  -1434  -1279   -702 343368 
+## 
+## Coefficients:
+##             Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)  1437.93      40.73  35.304 &lt; 0.0000000000000002 ***
+## emo_neg       243.81      16.59  14.697 &lt; 0.0000000000000002 ***
+## emo_pos       -66.75      12.55  -5.318          0.000000105 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5144 on 30777 degrees of freedom
+## Multiple R-squared:  0.00733,    Adjusted R-squared:  0.007265 
+## F-statistic: 113.6 on 2 and 30777 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<pre class="r"><code>plot(model, 1)
+abline(a = 0, b = 0, lty = 2)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/rwtweet%20emo%20regression-1.png" width="672" /></p>
+<p>Not surprisingly, as the <em>retweet_count</em>~<em>sentiment</em> model, this regression shows the same trends as the last one, but the magnitude of the Coefficient estimated is lower and, again, the model presents a low R-squared and heteroscedasticity.</p>
+</div>
+<div id="section-8" class="section level3">
+<h3>3.3.3</h3>
+<p>We might want to control if the longer tweets get more engagement we must add <em>tot_words</em> variable as an interaction term using the <span class="math inline">\(*\)</span> symbol:</p>
+<pre class="r"><code>summary(model &lt;- lm(favorite_count ~ sentiment*tot_words, 
+                    data = trump))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = favorite_count ~ sentiment * tot_words, data = trump)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -10793  -4740  -3479  -1575 626740 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)           326.14     246.13   1.325              0.18516    
+## sentiment             116.37     244.28   0.476              0.63381    
+## tot_words             257.78      14.11  18.264 &lt; 0.0000000000000002 ***
+## sentiment:tot_words   -32.68      12.52  -2.612              0.00902 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 14970 on 30776 degrees of freedom
+## Multiple R-squared:  0.01268,    Adjusted R-squared:  0.01258 
+## F-statistic: 131.7 on 3 and 30776 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<pre class="r"><code>plot(model, 1)
+abline(a = 0, b = 0, lty = 2)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/words%20interaction%20regression-1.png" width="672" /></p>
+<p>There is, indeed, a statistically significant interaction between the total words and the sentiment!</p>
+</div>
+<div id="section-9" class="section level3">
+<h3>3.3.4</h3>
+<p>Lastly, we can check the difference separating the different recoded sources. Since <em>source_rec</em> variable is categorical, to add it to the model fitting we must wrap it with the <span class="math inline">\(factor()\)</span> function:</p>
+<pre class="r"><code>summary(model &lt;- lm(favorite_count ~ sentiment + factor(source_rec), 
+                    data = trump))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = favorite_count ~ sentiment + factor(source_rec), 
+##     data = trump)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -21662  -4282  -1321   -566 628596 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)          4656.73     121.26  38.404 &lt; 0.0000000000000002 ***
+## sentiment            -347.70      60.11  -5.785        0.00000000733 ***
+## factor(source_rec)2 15266.53     298.39  51.163 &lt; 0.0000000000000002 ***
+## factor(source_rec)3 -3580.70     169.12 -21.173 &lt; 0.0000000000000002 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 14170 on 30776 degrees of freedom
+## Multiple R-squared:  0.1153, Adjusted R-squared:  0.1152 
+## F-statistic:  1337 on 3 and 30776 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<pre class="r"><code>plot(model, 1)
+abline(a = 0, b = 0, lty = 2)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/fav%20per%20source-1.png" width="672" /></p>
+<p>The baseline category is <em>Android.</em> That means that <em>Other</em> follow a slightly more negative trend than <em>Android</em>, but <em>iPhone</em> has a contrary one. More positive words, in that case, means more likes!
+We can also show these results with a graphical approach:</p>
+<pre class="r"><code>ggplot(trump, aes(x = sentiment, y = favorite_count, group = source_rec))+
+  geom_smooth(aes(col = factor(source_rec)), method = &quot;lm&quot;)+
+  labs(color =&#39;Twitting device&#39;)+
+  scale_color_manual(values = c(&quot;#3DDC84&quot;, &#39;#555555&#39;, &#39;purple&#39;),
+                     labels = c(&quot;Android&quot;,&quot;iPhone&quot;,&quot;Others&quot;))</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/regression%20sources-1.png" width="672" /></p>
+<pre class="r"><code>summary(model &lt;- lm(retweet_count ~ sentiment + factor(source_rec), 
+                    data = trump))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = retweet_count ~ sentiment + factor(source_rec), 
+##     data = trump)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -7565  -1363   -637   -205 343258 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value            Pr(&gt;|t|)    
+## (Intercept)          1547.77      41.53  37.265 &lt;0.0000000000000002 ***
+## sentiment            -170.71      20.59  -8.292 &lt;0.0000000000000002 ***
+## factor(source_rec)2  5553.37     102.21  54.334 &lt;0.0000000000000002 ***
+## factor(source_rec)3  -903.15      57.93 -15.591 &lt;0.0000000000000002 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4853 on 30776 degrees of freedom
+## Multiple R-squared:  0.1165, Adjusted R-squared:  0.1164 
+## F-statistic:  1353 on 3 and 30776 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<pre class="r"><code>plot(model, 1)
+abline(a = 0, b = 0, lty = 2)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/ret%20per%20source-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(trump, aes(x = sentiment, y = retweet_count, group = source_rec))+
+  geom_smooth(aes(col = factor(source_rec)), method = &quot;lm&quot;)+
+  labs(color =&#39;Twitting device&#39;)+
+  scale_color_manual(values = c(&quot;#3DDC84&quot;, &#39;#555555&#39;, &#39;purple&#39;),
+                     labels = c(&quot;Android&quot;,&quot;iPhone&quot;,&quot;Others&quot;))</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/retweet%20sources-1.png" width="672" /></p>
+<p>Interestingly, in this case, even if iPhone tweets still get more engagement than other sources, an increase in the sentiment values (aka more positive words/or less negative ones) lead to a reduction of the reweets.</p>
+</div>
+</div>
+<div id="section-10" class="section level2">
+<h2>3.4 <a name='34'></a></h2>
+<p>Given that:</p>
+<ol style="list-style-type: lower-alpha">
+<li>The presidential elections happened on November 8, 2016.</li>
+<li>Trump campaign was officially launched on June 16, 2015.</li>
+<li>Trump became the presumptive nominee for the Republicans on May 4, 2016 (after the Indiana primary on May 3) and the official nominee on July 19, 2016.</li>
+</ol>
+<div id="section-11" class="section level3">
+<h3>3.4.1</h3>
+<p>Did the frequency of Trump’s tweets change (1) before/after he started the primary campaign, (2) over the course of the primary campaign, (3) before/after he became official nominee, (4) over the course of the general election campaign, and (5) before/after he became President?</p>
+<pre class="r"><code>trump %&gt;% 
+  filter(year &gt; &#39;2010&#39;) %&gt;% 
+  group_by(month = floor_date(date, unit = &#39;month&#39;), year ) %&gt;% 
+  summarise(n = n()) %&gt;% 
+  ungroup() %&gt;% 
+  ggplot(aes(month, n))+
+  geom_rect(aes(xmin=as.POSIXct(-Inf), xmax=as.POSIXct(&quot;2015-06-16&quot;), ymin=-Inf, ymax=Inf, fill = &#39;1&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2015-06-16&quot;), xmax=as.POSIXct(&quot;2016-05-04&quot;), ymin=-Inf, ymax=Inf, fill = &#39;2&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2016-05-04&quot;), xmax=as.POSIXct(&quot;2016-07-19&quot;), ymin=-Inf, ymax=Inf, fill = &#39;3&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2016-07-19&quot;), xmax=as.POSIXct(&quot;2016-11-08&quot;), ymin=-Inf, ymax=Inf, fill = &#39;4&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2016-11-08&quot;), xmax=as.POSIXct(Inf), ymin=-Inf, ymax=Inf, fill = &#39;5&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  scale_fill_manual(values = c(&#39;#442288&#39;,&#39;#6CA2EA&#39;,&#39;#B5D33D&#39;,&#39;#FED23F&#39;,&#39;#EB7D5B&#39;), 
+                    labels = c(&quot;Before campaign&quot;,&quot;Presidential primary campaign&quot;,&quot;Presumptive nominee&quot;,&quot;Official nominee&quot;,&quot;Elected president&quot;))+
+  labs(fill=&quot;&quot;)+
+  geom_line()+
+  geom_point()+
+  ylab(label = &quot;Montly tweets&quot;)+
+  xlab(label = &quot;&quot;)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/Political%20activity%20plot-1.png" width="960" /></p>
+<p>The graph shows the monthly volume of tweets published during five different periods of Donald Trump’s activity. We can understand that the more dense period is “Before Campaign”. After the official campaign launch, the growing trend starts to drop, with only one peak before the presidential election.
+Nevertheless, this graph is not very informative because it doesn’t show us the behaviour of the different sources.</p>
+</div>
+<div id="section-12" class="section level3">
+<h3>3.4.2</h3>
+<p>We can plot a line chart grouped by the recoded sources dividing the plot into 5 different “regions” indicating the political periods of Donald Trump.
+To improve the readability of the chart we can filter out tweets published before 2014. The earlier tweets represent only the media career of Donald Trump, as the presenter for “The Apprentice”.</p>
+<pre class="r"><code>trump %&gt;% 
+  filter(year &gt; &#39;2010&#39;) %&gt;% 
+  group_by(source_rec, month = floor_date(date, unit = &#39;month&#39;), year ) %&gt;% 
+  summarise(n = n()) %&gt;% 
+  ungroup() %&gt;% 
+  ggplot(aes(month, n, color = source_rec))+
+  labs(color =&#39;Twitting device&#39;)+
+  scale_color_manual(values = c(&quot;#3DDC84&quot;, &#39;#555555&#39;, &#39;purple&#39;),
+                     labels = c(&quot;Android&quot;,&quot;iPhone&quot;,&quot;Others&quot;))+
+  geom_rect(aes(xmin=as.POSIXct(-Inf), xmax=as.POSIXct(&quot;2015-06-16&quot;), ymin=-Inf, ymax=Inf, fill = &#39;1&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2015-06-16&quot;), xmax=as.POSIXct(&quot;2016-05-04&quot;), ymin=-Inf, ymax=Inf, fill = &#39;2&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2016-05-04&quot;), xmax=as.POSIXct(&quot;2016-07-19&quot;), ymin=-Inf, ymax=Inf, fill = &#39;3&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2016-07-19&quot;), xmax=as.POSIXct(&quot;2016-11-08&quot;), ymin=-Inf, ymax=Inf, fill = &#39;4&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2016-11-08&quot;), xmax=as.POSIXct(Inf), ymin=-Inf, ymax=Inf, fill = &#39;5&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  scale_fill_manual(values = c(&#39;#442288&#39;,&#39;#6CA2EA&#39;,&#39;#B5D33D&#39;,&#39;#FED23F&#39;,&#39;#EB7D5B&#39;), 
+                    labels = c(&quot;Before campaign&quot;,&quot;Presidential primary campaign&quot;,&quot;Presumptive nominee&quot;,&quot;Official nominee&quot;,&quot;Elected president&quot;))+
+  labs(fill=&quot;&quot;)+
+  geom_line()+
+  geom_point()+
+  ylab(label = &quot;Montly tweets&quot;)+
+  xlab(label = &quot;&quot;)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/periods%20sources-1.png" width="960" /></p>
+<p>The chart highlights the monthly frequency divided by the three recoded sources. In the first area, “Before Campaign”, the volume before 2011 (filtered out!) are mostly linked with Trump’s media career and general political opinions. In the four years approaching the 16th of June 2015, <a href="https://time.com/3923128/donald-trump-announcement-speech">when Trump announced his Presidential campaign</a>, the political topics overtake the others, simultaneously with an increase in the tweets volume. Throughout the last months of 2015, after the official announcement, it can be observed that Trump’s campaign staff, who’s tweeting from iPhone devices, started tweeting.
+During the whole time, the main tweeting source was Android. After the Official nomination, the tweets from Android no longer have the primacy, in favour of those published via iPhone.
+Lastly, after the presidential election, tweets from “Others” drops close to zero. Furthermore, the volume of the monthly tweets is reduced.</p>
+</div>
+<div id="section-13" class="section level3">
+<h3>3.4.3</h3>
+<p>Did the sentiment and the use of emotional words in the tweets change in the same 5 periods?
+You can show your results either with tables or charts.</p>
+<hr />
+<p>For the positive-negative chart, we’ll use the same approach used before:</p>
+<pre class="r"><code>trump %&gt;% 
+  filter(year &gt; &#39;2010&#39;) %&gt;% 
+  group_by(month = floor_date(date, unit = &#39;month&#39;), year ) %&gt;%
+  summarise(across(
+    .cols = c(positive,negative),
+    .fns = sum,
+    .names = &quot;{col}&quot;
+  )) %&gt;% 
+  ungroup() %&gt;% 
+  pivot_longer(positive:negative,
+               names_to = &quot;sentiment&quot;,
+               values_to = &quot;count&quot;) %&gt;% 
+  ggplot(aes(month, count, color = sentiment))+
+  geom_rect(aes(xmin=as.POSIXct(-Inf), xmax=as.POSIXct(&quot;2015-06-16&quot;), ymin=-Inf, ymax=Inf, fill = &#39;1&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2015-06-16&quot;), xmax=as.POSIXct(&quot;2016-05-04&quot;), ymin=-Inf, ymax=Inf, fill = &#39;2&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2016-05-04&quot;), xmax=as.POSIXct(&quot;2016-07-19&quot;), ymin=-Inf, ymax=Inf, fill = &#39;3&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2016-07-19&quot;), xmax=as.POSIXct(&quot;2016-11-08&quot;), ymin=-Inf, ymax=Inf, fill = &#39;4&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(),
+            inherit.aes = FALSE)+
+  geom_rect(aes(xmin=as.POSIXct(&quot;2016-11-08&quot;), xmax=as.POSIXct(Inf), ymin=-Inf, ymax=Inf, fill = &#39;5&#39;),
+            color= &quot;black&quot;,
+            alpha = 0.2,
+            data = data.frame(), 
+            inherit.aes = FALSE)+
+  scale_fill_manual(values = c(&#39;#442288&#39;,&#39;#6CA2EA&#39;,&#39;#B5D33D&#39;,&#39;#FED23F&#39;,&#39;#EB7D5B&#39;), 
+                    labels = c(&quot;Before campaign&quot;,&quot;Presidential primary campaign&quot;,&quot;Presumptive nominee&quot;,&quot;Official nominee&quot;,&quot;Elected president&quot;))+
+  labs(fill=&quot;&quot;)+
+  geom_line()+
+  geom_point()+
+  ylab(label = &quot;Sentiment words count&quot;)+
+  xlab(label = &quot;&quot;)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/sentiment%20period-1.png" width="960" /></p>
+<p>As shown before, negative words are used about half times than positive words. The peaks between the two groups correspond to the peaks in the overall tweeting frequency. Only the months before the Primary campaign the usage of the negative words seems less responsive to the peaks. Lastly, after the official campaign launch, the delta between Positive and Negative words shortens, because there is a reduction of positive words, but the negative one stays around the same frequency</p>
+</div>
+<div id="section-14" class="section level3">
+<h3>3.4.4</h3>
+<p>For the emotional words plot, we must change the approach. Since there are eight different emotion variables we need to reduce the elements plotted to improve the readability. For doing so we can remove the background colour for the different political periods, split into two different graphs the negative emotions and the positive emotions and reduce the analysis period to post 2015 (2015 included):</p>
+<pre class="r"><code>pos &lt;- trump %&gt;% 
+  filter(year &gt; &#39;2014&#39;) %&gt;% 
+  group_by(month = floor_date(date, unit = &#39;month&#39;), year ) %&gt;%
+  summarise(across(
+    .cols = c(anticipation, joy, surprise, trust),
+    .fns = sum,
+    .names = &quot;{col}&quot;
+  )) %&gt;% 
+  ungroup() %&gt;% 
+  pivot_longer(anticipation:trust,
+               names_to = &quot;emotion&quot;,
+               values_to = &quot;count&quot;) %&gt;% 
+  group_by(month) %&gt;% 
+ # summarise(emotion, percent = count/sum(count)) %&gt;% 
+  ggplot(aes(x = month, y = count, fill = emotion))+
+  geom_area(alpha = 0.75)+
+  geom_vline(xintercept =  as.POSIXct(c(&quot;2015-06-16&quot;,&quot;2016-05-04&quot;)))+
+  geom_vline(xintercept =  as.POSIXct(c(&quot;2015-06-16&quot;, &quot;2016-05-04&quot;, &quot;2016-07-19&quot;, &quot;2016-11-08&quot;)))+
+  annotate(&quot;text&quot;, x = as.POSIXct(c(&quot;2015-02-21&quot;, &quot;2015-07-20&quot;, &quot;2016-05-24&quot;, &quot;2016-08-10&quot;, &quot;2016-11-29&quot;)), y = 2000, label = c(&quot;Before&quot;, &quot;Primary&quot;, &quot;Presumtive&quot;, &quot;Official&quot;, &quot;Election&quot;),angle = 270)+
+ 
+  theme(legend.position=&quot;bottom&quot;)
+neg &lt;- trump %&gt;% 
+  filter(year &gt; &#39;2014&#39;) %&gt;% 
+  group_by(month = floor_date(date, unit = &#39;month&#39;), year ) %&gt;%
+  summarise(across(
+    .cols = c(anger,disgust, fear, sadness),
+    .fns = sum,
+    .names = &quot;{col}&quot;
+  )) %&gt;% 
+  ungroup() %&gt;% 
+  pivot_longer(anger:sadness,
+               names_to = &quot;emotion&quot;,
+               values_to = &quot;count&quot;) %&gt;% 
+  group_by(month) %&gt;% 
+ # summarise(emotion, percent = count/sum(count)) %&gt;% 
+  ggplot(aes(x = month, y = count, fill = emotion))+
+  geom_area(alpha = 0.75)+
+  geom_vline(xintercept =  as.POSIXct(c(&quot;2015-06-16&quot;, &quot;2016-05-04&quot;, &quot;2016-07-19&quot;, &quot;2016-11-08&quot;)))+
+  annotate(&quot;text&quot;, x = as.POSIXct(c(&quot;2015-01-21&quot;, &quot;2015-07-20&quot;, &quot;2016-05-24&quot;, &quot;2016-08-10&quot;, &quot;2016-11-29&quot;)), y = 850, label = c(&quot;Before&quot;, &quot;Primary&quot;, &quot;Presumtive&quot;, &quot;Official&quot;, &quot;Election&quot;),angle = 270)+
+  ylab(NULL)+
+  theme(legend.position=&quot;bottom&quot;)
+
+ggarrange(pos, neg,
+          ncol = 2)</code></pre>
+<p><img src="/en/article/2022-01-21-covfefe/2022-01-21-covfefe_files/figure-html/emotion-1.png" width="960" /></p>
+<p>As we saw in the sentiment’s plot the positive words are more frequent in the first period. After the official campaign launch the difference decrease. The most relevant peaks occur immediately after the Primary campaign launch, during the primary campaign and before the official nomination and the presidential election.</p>
+</div>
+</div>
+</div>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://ncasa.it" >
+    &copy;  Ncasa 2022 
+  </a>
+    <div>
+
+
+
+
+<a href="https://twitter.com/RafanoPiccante" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
