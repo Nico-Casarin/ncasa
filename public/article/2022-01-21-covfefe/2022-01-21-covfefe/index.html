@@ -6,7 +6,7 @@
     
     <title>Covfefe | Ncasa</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="description" content="Final Assignment  Table of Contents Libraries loading Exercise 3 Data import Three exploratory plots  Overall distribution Hourly distribution Bad or Good?  Trump or Staff? Rregression analysis Different periods -&gt; different beheaviours?  Exercise 4   Preparatory work  libs &lt;- c(&quot;tidyverse&quot;,&quot;rio&quot;,&quot;lubridate&quot;,&quot;tidytext&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;fmsb&quot;,&quot;scales&quot;,&quot;sjmisc&quot;,&quot;sjPlot&quot;, &quot;ggpubr&quot;) invisible(lapply(libs, library, character.only = T))  Exercise 3  3.0 Data import/ text mining  We’ll use Trump’s Tweets dataset, which includes tweets from 2009 to 2017.">
+    <meta name="description" content="Was it me? Was it you? Brief analysis of the twitting behaviour of an (in)famous Twitter star.">
     <meta name="generator" content="Hugo 0.89.4" />
     
     
@@ -27,19 +27,19 @@
     
     
     <meta property="og:title" content="Covfefe" />
-<meta property="og:description" content="Final Assignment  Table of Contents Libraries loading Exercise 3 Data import Three exploratory plots  Overall distribution Hourly distribution Bad or Good?  Trump or Staff? Rregression analysis Different periods -&gt; different beheaviours?  Exercise 4   Preparatory work  libs &lt;- c(&quot;tidyverse&quot;,&quot;rio&quot;,&quot;lubridate&quot;,&quot;tidytext&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;fmsb&quot;,&quot;scales&quot;,&quot;sjmisc&quot;,&quot;sjPlot&quot;, &quot;ggpubr&quot;) invisible(lapply(libs, library, character.only = T))  Exercise 3  3.0 Data import/ text mining  We’ll use Trump’s Tweets dataset, which includes tweets from 2009 to 2017." />
+<meta property="og:description" content="Was it me? Was it you? Brief analysis of the twitting behaviour of an (in)famous Twitter star." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ncasa.it/article/2022-01-21-covfefe/2022-01-21-covfefe/" /><meta property="article:section" content="article" />
 <meta property="article:published_time" content="2022-01-21T00:00:00+00:00" />
 <meta property="article:modified_time" content="2022-01-21T00:00:00+00:00" /><meta property="og:site_name" content="Ncasa" />
 
 <meta itemprop="name" content="Covfefe">
-<meta itemprop="description" content="Final Assignment  Table of Contents Libraries loading Exercise 3 Data import Three exploratory plots  Overall distribution Hourly distribution Bad or Good?  Trump or Staff? Rregression analysis Different periods -&gt; different beheaviours?  Exercise 4   Preparatory work  libs &lt;- c(&quot;tidyverse&quot;,&quot;rio&quot;,&quot;lubridate&quot;,&quot;tidytext&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;fmsb&quot;,&quot;scales&quot;,&quot;sjmisc&quot;,&quot;sjPlot&quot;, &quot;ggpubr&quot;) invisible(lapply(libs, library, character.only = T))  Exercise 3  3.0 Data import/ text mining  We’ll use Trump’s Tweets dataset, which includes tweets from 2009 to 2017."><meta itemprop="datePublished" content="2022-01-21T00:00:00+00:00" />
+<meta itemprop="description" content="Was it me? Was it you? Brief analysis of the twitting behaviour of an (in)famous Twitter star."><meta itemprop="datePublished" content="2022-01-21T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2022-01-21T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3551">
+<meta itemprop="wordCount" content="3556">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Covfefe"/>
-<meta name="twitter:description" content="Final Assignment  Table of Contents Libraries loading Exercise 3 Data import Three exploratory plots  Overall distribution Hourly distribution Bad or Good?  Trump or Staff? Rregression analysis Different periods -&gt; different beheaviours?  Exercise 4   Preparatory work  libs &lt;- c(&quot;tidyverse&quot;,&quot;rio&quot;,&quot;lubridate&quot;,&quot;tidytext&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;fmsb&quot;,&quot;scales&quot;,&quot;sjmisc&quot;,&quot;sjPlot&quot;, &quot;ggpubr&quot;) invisible(lapply(libs, library, character.only = T))  Exercise 3  3.0 Data import/ text mining  We’ll use Trump’s Tweets dataset, which includes tweets from 2009 to 2017."/>
+<meta name="twitter:description" content="Was it me? Was it you? Brief analysis of the twitting behaviour of an (in)famous Twitter star."/>
 
 	
   </head>
@@ -149,11 +149,10 @@
       
     </header>
     <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<div id="final-assignment" class="section level1">
-<h1>Final Assignment</h1>
+<div id="final-assignment-for-data-analysis-class-2021" class="section level1">
+<h1>Final Assignment for Data Analysis class 2021</h1>
 </div>
 <div id="table-of-contents" class="section level1">
 <h1>Table of Contents</h1>

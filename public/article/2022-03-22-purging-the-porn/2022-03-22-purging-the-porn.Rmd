@@ -1,0 +1,99 @@
+---
+title: 'Purging the porn'
+author: 'Nicola Casarin'
+date: '2022-03-22'
+bibliography: ref.bib
+summary: "What is at stake after FOSTA-SESTA act?"
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+# Introduction
+
+Since the half of the twentieth century, pornography has been investigated by numerous disciplines experts in its association with art, history, and literature.
+Nonetheless, these studies mainly focused on researching the adverse effects of pornography and sex-related issues, constituting what Margaret Attwood identified as the 'porn debate'.
+Nevertheless, in the last two decades, a change in this paradigm occurred, and many scholars began to study pornography and sex-related content in a cultural way, trying to disentangle the relationship with the new market of production and consumption fueled by the latest digital technologies  [@Attwood2011].
+However, outside of virtuous spaces within academia and research journals, these arguments remained stamped with a stigma of disdain [@Sanders2018].
+Despite this, it is clear that the display of sex-related content is omnipresent in our society, and it is even increased during the last decades while its portraiting has been used for lucrative purposes since then [@Are2021].
+
+Moreover, pornographic content surging during the '90 stimulated the development of new technology and new solutions to the problems caused by the high request of sexualised content [@Paasonen2019]. However, pornographic content lost this lead during the last decade and started to emulate the commercial, technical and communicational methods implemented by successful Social Network Sites .
+
+This stress, highly centred on the monetary profit made by the hosting platform, damaged a plethora of subjects producing those content. 
+The digital environment gave those subjects more possibility of self employing thanks to the lower cost of enterprise and lower risks [@Pitcher2015].
+This damage has been worsened by lawmakers' incapability of understanding this culture. 
+With the approval of FOSTA-SESTA (Allow States and Victims to Fight Online Sex Trafficking Act - Stop Enabling Sex Traffickers Act ) bills in 2018 sping, the major ISPs began to remove sex-related content attempting to protect their profits without considering the sex workers hosted on their websites  [@Jhaver2021].
+
+# Deplatforming NSFW content
+
+As already stated, deplatform is the practice of removing content from the visibility of social network sites' users. 
+This content moderation method could involve drastic approaches as the permanent ban of content and content creators o more subtle ones as shadowbans and demoting practices [@Are2021,Jhaver2021]. 
+Deplatforming such content is no new issue, but its extension widened a lot during the last decade because of new U.S.A bills anointed as FOSTA-SESTA approved in April 2018, which sought to protect victims of sex trafficking.
+Before these bills, ISPs could have taken advantage of immunity to their websites' content under, granted under Section 230 of the Communication Decency Act.
+In lawmakers' intention, the primary purpose of those bills was to rescind the connivance of ISPs toward illicit content hosted on their websites. 
+However, the bills reached their scope only partially [@Tripp2019]. 
+Firstly, the bills hit the whole community of NSFW content creators without discretion of whether the content was depicting consensual or non-consensual sexual acts. 
+This 'insensibility' of law could be led by the fact that even if in the academia reasoning about sex and pornography reached a dignity level, in the mainstream and political debates, the discussions are still drenched in conservative arguments against such issues [@Attwood2011]. 
+From this argument, results that the inability to understand the social implication around sex-related content provoked the inability to rule against unlawful actions without hitting innocent subjects.
+Secondly, the horizontal defacing of sex-related content caused the need of creator and consumer to evade this regime. If the legal and consensual production tried to engage in protests and bypass the moderation, the unlawful and criminal one has been pushed down to more inscrutable and untrackable spaces —namely Dark web— and thus reducing the chances to helps sex trafficking victims [@Paasonen2019].
+
+# Digital Sex
+
+Many scholars have noted how digital culture has impacted sex and pornography, both in production and consumption [@Attwood2011,Paasonen2019,Pitcher2015]. 
+The studies have revealed a complex mesh of relationships between subjects established within the affordances of social network sites.
+The above-mentioned effacement disrupted this complexity undermining the Fundamental Rights and Freedoms of people.
+
+Sex life, sex experiences, and relations are crucial parts of the human experience.
+The mediation method through which these experiences are lived does not discredit the experiences themselves; therefore, sex on social media is as critical as other everyday life experiences [@Tiidenberg2020].
+Supporting this argument, @Spisak2021 indicated that the opportunity to express one's sexual life is essential to develop and live 'fulfilling sexual experiences' that could permit the attainment of sexual well-being in its broader essence as a human rights.
+Consequently, impeding this achievement could lead to a violation of the aforementioned rights.
+Many scholars, as @Tiidenberg2020, argued supporting this view.
+In the view framed by the authors, the removal campaign undertaken by the ISPs has the sole scope to limit the legal liability resulting from FOSTA-SESTA acts.
+Readers should note that even if FOSTA-SESTA acts are parts of the U.S.A federal legislation, the extension of American based ISPs and the lead role represented by them have the power to govern social exchanges at an international level [@Spisak2021].
+Moreover, these acts limit peoples' freedom of expression, and removing NSFW content will relentlessly determine an erosion of cultural diversity, pushing back marginalised people that use sex-related content for expressing themselves [@Are2021].
+Lastly, some researchers noticed that the disruption of the production-consumption structure of sex-related content has led to significant problems for sex workers.
+
+As already stated, the internet permitted a qualitative shift in the work conditions of sex workers people since it permits them to set up a business at a low cost and with a minimum effort [@Pitcher2015].
+Furthermore, online sex work improved the overall safety of the workers.
+The usage of technology permits screening clients and creating secure networks between the workers.
+However, the actual range of these claims is debated by scholars.
+On the one hand, some authors acclaimed the safety improvement generated by online sex work, reporting a statistical significance reduction in the rate of violent crime amongst sex workers [@Cunningham2019].
+These results could encourage policy and lawmakers to engage much deeper reasoning about the presence of sex on social media.
+Conversely, @Feifer2019 argued that although online sex work could produce less risk for the workers, the research made by @Cunningham2019 is frail with inadequate methodology and uncorroborated assumption.
+Noteworthy, the outburst of the ongoing pandemic has exacerbated the research of a safe environment to work and express ourselves, which the digital means could permit, now more than ever [@Spisak2021].
+
+# Challenging the ban and its duplicity
+
+From the reported evidence, it is clear that sex-related content production over the web engaged and stimulated the creation of peculiar relationships between users.
+For that reason, the attempt to eradicate such content, and therefore the producer of the said content, provoked vehement community reactions.
+Around the approval date of FOSTA-SESTA acts, the \#letussurvive campaign has deflagrated in support of online sex workers reclaiming the safeguard of Human Rights and the right to work [@Campbell2019].
+Furthermore, in addition to protests and campaigning, SNSs' users started a networked resistance against the deplatforming of NSFW content.
+As has been drawn by @Pilipets2020, after the so-called 'porn purge' on Tumblr, users began to share prohibited content to evade the AI-driven filter.
+These operations represented a strong critique against the poor methods put in place by the SNS.
+Correspondingly, these actions have underlined an attempt to regain and reclaim visibility by reframing banished content.
+The authors argued that these reclaims were provoked by the poor trained AI content moderator.
+In fact, this filter removed content without a critical analysis of it pulling down 'fully clothed selfies, pictures of whales, dolphins, and Garfield' [@Pilipets2020].
+
+Other scholars noticed that in different SNSs, with similar problems, the issue is not only linked to bad algorithms implementation, and the removal of NSFW content was not implemented evenly. 
+Firstly, SNSs' justified the removal as a safeguard to its audience sensibility but failed to address a solution to hate a racist content that is usually not removed from the platforms [@Spisak2021].
+Secondly, within sex-related content, some of which has not been removed.
+@Are2021 argued that sexualised content was treated with a double standard where the most recognised content creators were left untouched.
+The authors reasoned that this choice was caused by the cleavage of platforms' self-identification from the users' expectations.
+Even if SNSs presents themselves as public spaces, they are not so.
+Their primary business is selling audience to advertisers, and content that reaches enormous amounts of viewers is profitable regardless of the depicted content.
+Consequently, content evaluated as low worth for the platform is removed.
+Within this viewpoint, the SNSs governance of sex is not a matter of human rights, civil liberties or the right to work but merely tied with the monetary value that can be gained from it [@Are2021].
+
+# Conclusion
+
+The exposed arguments permit us to understand the profound relationship between 'digital sex' and society.
+The crucial role enacted by the production and the consumption of sex-related content over the web must be protected.
+The problems aroused are caused in the first instance by the petty sensitivity surrounding these topics. 
+Political actors must normalize sex working and sex content production, overcoming the still resisting stigma that obnubilate political debates [@Attwood2011].
+A possible way is a more profound legal reform to reduce the aforementioned stigma; However, this process could take decades to bear results and must be well-calibrated [@Sanders2017]. 
+Moreover, even the role embodied by SNSs must be discussed. They could try to achieve more just and ethical policies, though the obstacles interlaying are not easy matter: firstly, SNSs are not States or public entities and thus, they could not be legally bound to provide the protection of human rights [@Spisak2021].
+On the other hand, this tutelage would be onerous, and NSFW content is not easily monetized. Nonetheless, even indiscriminately removing such content could lead to considerable losses; after the porn ban, Tumblr value dropped by almost 30\% [@Pilipets2020].
+
+At last, the recognition of the vital role represented by sex within the contemporary digital culture could not be postponed since new legal boundaries —as the EARN IT act— are on the point to more limitation to Freedom of Speech, Sexual Wellbeing, and Human Rights in general.
+
+# References

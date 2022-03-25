@@ -6,14 +6,23 @@
     <description>Recent content in Articles on Ncasa</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 21 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ncasa.it/article/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 22 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ncasa.it/article/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Purging the porn</title>
+      <link>https://ncasa.it/article/2022-03-22-purging-the-porn/2022-03-22-purging-the-porn/</link>
+      <pubDate>Tue, 22 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://ncasa.it/article/2022-03-22-purging-the-porn/2022-03-22-purging-the-porn/</guid>
+      <description>What is at stake after FOSTA-SESTA act?</description>
+    </item>
+    
     <item>
       <title>Covfefe</title>
       <link>https://ncasa.it/article/2022-01-21-covfefe/2022-01-21-covfefe/</link>
       <pubDate>Fri, 21 Jan 2022 00:00:00 +0000</pubDate>
       
       <guid>https://ncasa.it/article/2022-01-21-covfefe/2022-01-21-covfefe/</guid>
-      <description>Final Assignment  Table of Contents Libraries loading Exercise 3 Data import Three exploratory plots  Overall distribution Hourly distribution Bad or Good?  Trump or Staff? Rregression analysis Different periods -&amp;gt; different beheaviours?  Exercise 4   Preparatory work  libs &amp;lt;- c(&amp;quot;tidyverse&amp;quot;,&amp;quot;rio&amp;quot;,&amp;quot;lubridate&amp;quot;,&amp;quot;tidytext&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;fmsb&amp;quot;,&amp;quot;scales&amp;quot;,&amp;quot;sjmisc&amp;quot;,&amp;quot;sjPlot&amp;quot;, &amp;quot;ggpubr&amp;quot;) invisible(lapply(libs, library, character.only = T))  Exercise 3  3.0 Data import/ text mining  We’ll use Trump’s Tweets dataset, which includes tweets from 2009 to 2017.</description>
+      <description>Was it me? Was it you? Brief analysis of the twitting behaviour of an (in)famous Twitter star.</description>
     </item>
     
     <item>
@@ -22,9 +31,7 @@
       <pubDate>Sat, 27 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ncasa.it/article/2021-11-27-shiny-elections/2021-11-27-shiny-elections/</guid>
-      <description>Italy’s 2016 and 2021 elections. Since 1993, Italians vote for mayors and city councils’ renewals. Those local governing bodies stay in charge for a five-year term, but they can be disbanded beforehand under precise causes defined by law.
-The limitation to only two electoral turnout is due to my shiny’s server limited resources. However, the database could be extended to the whole data available.
- Data source: Ministry of the Interior</description>
+      <description>Small shiny app showing Italy&amp;rsquo;s 2016 and 2021 administrative elections</description>
     </item>
     
     <item>

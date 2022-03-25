@@ -3,16 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ncasa.it/article/</loc>
-    <lastmod>2022-01-21T00:00:00+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://ncasa.it/article/2022-01-21-covfefe/2022-01-21-covfefe/</loc>
-    <lastmod>2022-01-21T00:00:00+00:00</lastmod>
+    <lastmod>2022-03-22T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://ncasa.it/</loc>
+    <lastmod>2022-03-22T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://ncasa.it/article/2022-03-22-purging-the-porn/2022-03-22-purging-the-porn/</loc>
+    <lastmod>2022-03-22T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://ncasa.it/article/2022-01-21-covfefe/2022-01-21-covfefe/</loc>
     <lastmod>2022-01-21T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

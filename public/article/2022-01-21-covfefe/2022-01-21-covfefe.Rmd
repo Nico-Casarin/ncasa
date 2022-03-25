@@ -3,6 +3,8 @@ title: "Covfefe"
 author: "Nicola Casarin"
 date: "2022-01-21"
 output: html_document
+summary: "Was it me? Was it you?
+Brief analysis of the twitting behaviour of an (in)famous Twitter star."
 ---
 
 ```{r setup, include=FALSE}
@@ -14,7 +16,7 @@ knitr::opts_chunk$set(
 options(scipen=999)
 ```
 
-# Final Assignment
+# Final Assignment for Data Analysis class 2021
 # Table of Contents
 1. [Libraries loading](#prep)
 2. [Exercise 3](#ex3)
